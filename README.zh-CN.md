@@ -47,59 +47,6 @@ test_vps/
 └── README.zh-CN.md     # 文档 (CN)
 ```
 
-## 安装
-
-### 克隆仓库
-
-```bash
-git clone https://github.com/anrulev/vps-speed-test.git
-cd vps-speed-test
-chmod +x *.sh
-```
-
-### 系统要求
-
-1. 确保已安装必要的工具：
-   - `curl` - 用于获取地理位置
-   - `ping` - 用于延迟测试
-   - `traceroute` - 用于路由追踪
-   - `bc` - 用于数学计算
-
-2. （可选）安装 `jq` 以改进 JSON 解析：
-   ```bash
-   # macOS
-   brew install jq
-
-   # Ubuntu/Debian
-   sudo apt install jq
-
-   # CentOS/RHEL
-   sudo yum install jq
-   ```
-
-### 在 Windows 上运行
-
-脚本无法在 Windows 上原生运行，但可以使用 **WSL**（适用于 Linux 的 Windows 子系统）：
-
-1. **安装 WSL：**
-   ```powershell
-   # 以管理员身份运行 PowerShell
-   wsl --install
-   ```
-
-2. **重启计算机**
-
-3. **克隆并运行：**
-   ```bash
-   # 在 WSL 终端中
-   git clone https://github.com/anrulev/vps-speed-test.git
-   cd vps-speed-test
-   chmod +x *.sh
-   ./test_vps_speed.sh
-   ```
-
-**替代方案：** 使用 Git Bash（包含在 Git for Windows 中），但某些工具可能缺失。
-
 ## 配置
 
 编辑 `servers.conf` 文件以添加/删除服务器：
@@ -248,20 +195,6 @@ cat ~/test_vps/reports/report_2025-12-13_17-30-45.txt
 **比较报告：**
 您可以比较不同时间的报告，以跟踪一天/一周内连接质量的变化。
 
-## 故障排除
-
-### 脚本找不到 servers.conf
-
-确保 `servers.conf` 文件与脚本在同一目录中。
-
-### traceroute 不工作
-
-在 macOS 上，traceroute 可能需要 sudo。脚本将继续运行，跳数标记为"不可用"。
-
-### 无法检测位置
-
-检查您的互联网连接。脚本使用 ipinfo.io API 进行地理定位。
-
 ## 许可证
 
-免费使用。
+MIT License - 免费使用。

@@ -47,59 +47,6 @@ test_vps/
 └── README.zh-CN.md     # Documentation (CN)
 ```
 
-## Installation
-
-### Clone the repository
-
-```bash
-git clone https://github.com/anrulev/vps-speed-test.git
-cd vps-speed-test
-chmod +x *.sh
-```
-
-### Requirements
-
-1. Ensure you have the necessary utilities installed:
-   - `curl` - for geolocation
-   - `ping` - for latency testing
-   - `traceroute` - for route determination
-   - `bc` - for mathematical calculations
-
-2. (Optional) Install `jq` for improved JSON parsing:
-   ```bash
-   # macOS
-   brew install jq
-
-   # Ubuntu/Debian
-   sudo apt install jq
-
-   # CentOS/RHEL
-   sudo yum install jq
-   ```
-
-### Running on Windows
-
-The script doesn't work natively on Windows, but you can use **WSL** (Windows Subsystem for Linux):
-
-1. **Install WSL:**
-   ```powershell
-   # Run PowerShell as Administrator
-   wsl --install
-   ```
-
-2. **Restart your computer**
-
-3. **Clone and run:**
-   ```bash
-   # In WSL terminal
-   git clone https://github.com/anrulev/vps-speed-test.git
-   cd vps-speed-test
-   chmod +x *.sh
-   ./test_vps_speed.sh
-   ```
-
-**Alternative:** Use Git Bash (included with Git for Windows), but some utilities may be missing.
-
 ## Configuration
 
 Edit the `servers.conf` file to add/remove servers:
@@ -248,20 +195,6 @@ cat ~/test_vps/reports/report_2025-12-13_17-30-45.txt
 **Comparing reports:**
 You can compare reports from different times to track connection quality changes throughout the day/week.
 
-## Troubleshooting
-
-### Script can't find servers.conf
-
-Ensure the `servers.conf` file is in the same directory as the script.
-
-### Traceroute doesn't work
-
-On macOS, traceroute may require sudo. The script will continue with "unavailable" mark for hops.
-
-### Location not detected
-
-Check your internet connection. The script uses ipinfo.io API for geolocation.
-
 ## License
 
-Free to use.
+MIT License - free to use.

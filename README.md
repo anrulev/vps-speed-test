@@ -11,7 +11,9 @@
 
 Скрипт для тестирования скорости и качества подключения к VPS серверам.
 
-## Быстрая установка
+## Установка
+
+### Быстрая установка (рекомендуется)
 
 Установка одной командой:
 
@@ -25,11 +27,55 @@ curl -sSL https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.
 wget -qO- https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
 ```
 
-Скрипт установки автоматически:
+Скрипт автоматически:
 - ✅ Проверит зависимости
 - ✅ Клонирует репозиторий в `~/vps-speed-test`
 - ✅ Установит права на выполнение
 - ✅ Предложит добавить в PATH
+
+### Ручная установка
+
+```bash
+git clone https://github.com/anrulev/vps-speed-test.git
+cd vps-speed-test
+chmod +x *.sh
+./test_vps_speed.sh
+```
+
+### Требования
+
+Необходимые утилиты:
+- `curl` - для получения геолокации
+- `ping` - для тестирования задержки
+- `traceroute` - для определения маршрута
+- `bc` - для математических вычислений
+
+Опциональные:
+```bash
+# macOS
+brew install jq
+
+# Ubuntu/Debian
+sudo apt install jq
+
+# CentOS/RHEL
+sudo yum install jq
+```
+
+### Windows (WSL)
+
+1. Установите WSL:
+   ```powershell
+   # PowerShell от имени администратора
+   wsl --install
+   ```
+
+2. После перезагрузки:
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
+   ```
+
+**Альтернатива:** Git Bash (некоторые функции могут не работать)
 
 ## Структура проекта
 
@@ -46,59 +92,6 @@ test_vps/
 ├── README.en.md        # Документация (EN)
 └── README.zh-CN.md     # Документация (CN)
 ```
-
-## Установка
-
-### Клонирование репозитория
-
-```bash
-git clone https://github.com/anrulev/vps-speed-test.git
-cd vps-speed-test
-chmod +x *.sh
-```
-
-### Требования
-
-1. Убедитесь, что у вас установлены необходимые утилиты:
-   - `curl` - для получения геолокации
-   - `ping` - для тестирования задержки
-   - `traceroute` - для определения маршрута
-   - `bc` - для математических вычислений
-
-2. (Опционально) Установите `jq` для улучшенного парсинга JSON:
-   ```bash
-   # macOS
-   brew install jq
-
-   # Ubuntu/Debian
-   sudo apt install jq
-
-   # CentOS/RHEL
-   sudo yum install jq
-   ```
-
-### Запуск на Windows
-
-Скрипт не работает нативно на Windows, но можно использовать **WSL** (Windows Subsystem for Linux):
-
-1. **Установка WSL:**
-   ```powershell
-   # Запустите PowerShell от имени администратора
-   wsl --install
-   ```
-
-2. **Перезагрузите компьютер**
-
-3. **Клонирование и запуск:**
-   ```bash
-   # В WSL терминале
-   git clone https://github.com/anrulev/vps-speed-test.git
-   cd vps-speed-test
-   chmod +x *.sh
-   ./test_vps_speed.sh
-   ```
-
-**Альтернатива:** Используйте Git Bash (входит в Git for Windows), но некоторые утилиты могут отсутствовать.
 
 ## Настройка
 
@@ -248,20 +241,6 @@ cat ~/test_vps/reports/report_2025-12-13_17-30-45.txt
 **Сравнение отчетов:**
 Вы можете сравнивать отчеты за разное время, чтобы отслеживать изменения качества соединения в течение дня/недели.
 
-## Устранение неполадок
-
-### Скрипт не находит servers.conf
-
-Убедитесь, что файл `servers.conf` находится в той же директории, что и скрипт.
-
-### Traceroute не работает
-
-На macOS может потребоваться sudo для traceroute. Скрипт продолжит работу сометкой "недоступно" для хопов.
-
-### Местоположение не определяется
-
-Проверьте интернет-соединение. Скрипт использует API ipinfo.io для геолокации.
-
 ## Лицензия
 
-Свободное использование.
+MIT License - свободное использование.
