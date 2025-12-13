@@ -1,0 +1,8 @@
+# Временные файлы отчетов (необработанные)
+reports/.report_*_raw.txt
+
+# Игнорировать все отчеты
+reports/*.txt
+
+# Но сохранить папку reports
+!reports/.gitkeep
