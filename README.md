@@ -9,17 +9,39 @@
 
 Скрипт для тестирования скорости и качества подключения к VPS серверам.
 
+## Быстрая установка
+
+Установка одной командой:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
+```
+
+или с помощью wget:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
+```
+
+Скрипт установки автоматически:
+- ✅ Проверит зависимости
+- ✅ Клонирует репозиторий в `~/vps-speed-test`
+- ✅ Установит права на выполнение
+- ✅ Предложит добавить в PATH
+
 ## Структура проекта
 
 ```
 test_vps/
+├── install.sh           # Скрипт автоматической установки
 ├── test_vps_speed.sh    # Основной скрипт тестирования
 ├── view_reports.sh      # Скрипт для просмотра и управления отчетами
 ├── servers.conf         # Конфигурация серверов
 ├── reports/             # Директория с отчетами о тестированиях
 │   ├── report_2025-12-13_17-30-45.txt
 │   └── report_2025-12-13_18-15-22.txt
-└── README.md           # Документация
+├── README.md           # Документация (RU)
+└── README.en.md        # Документация (EN)
 ```
 
 ## Установка

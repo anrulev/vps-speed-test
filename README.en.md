@@ -9,17 +9,39 @@
 
 A tool for testing speed and connection quality to VPS servers.
 
+## Quick Installation
+
+One-command installation:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
+```
+
+or using wget:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/anrulev/vps-speed-test/main/install.sh | bash
+```
+
+The installation script will automatically:
+- ✅ Check dependencies
+- ✅ Clone repository to `~/vps-speed-test`
+- ✅ Set execute permissions
+- ✅ Offer to add to PATH
+
 ## Project Structure
 
 ```
 test_vps/
+├── install.sh           # Automatic installation script
 ├── test_vps_speed.sh    # Main testing script
 ├── view_reports.sh      # Script for viewing and managing reports
 ├── servers.conf         # Server configuration
 ├── reports/             # Directory for test reports
 │   ├── report_2025-12-13_17-30-45.txt
 │   └── report_2025-12-13_18-15-22.txt
-└── README.md           # Documentation
+├── README.md           # Documentation (RU)
+└── README.en.md        # Documentation (EN)
 ```
 
 ## Installation
