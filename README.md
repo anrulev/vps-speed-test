@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Maintenance](https://img.shields.io/badge/maintained-yes-brightgreen)](https://github.com/anrulev/vps-speed-test/commits/main)
 
-**Языки:** **🇷🇺 Русский** | [🇬🇧 English](README.en.md)
+**Языки:** **🇷🇺 Русский** | [🇬🇧 English](README.en.md) | [🇨🇳 简体中文](README.zh-CN.md)
 
 Скрипт для тестирования скорости и качества подключения к VPS серверам.
 
@@ -41,7 +41,8 @@ test_vps/
 │   ├── report_2025-12-13_17-30-45.txt
 │   └── report_2025-12-13_18-15-22.txt
 ├── README.md           # Документация (RU)
-└── README.en.md        # Документация (EN)
+├── README.en.md        # Документация (EN)
+└── README.zh-CN.md     # Документация (CN)
 ```
 
 ## Установка
