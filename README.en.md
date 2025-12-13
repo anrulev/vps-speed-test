@@ -1,6 +1,6 @@
 # VPS Speed Tester
 
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](https://github.com/anrulev/vps-speed-test)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows%20(WSL)-lightgrey)](https://github.com/anrulev/vps-speed-test)
 [![Shell](https://img.shields.io/badge/shell-bash-green)](https://www.gnu.org/software/bash/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Maintenance](https://img.shields.io/badge/maintained-yes-brightgreen)](https://github.com/anrulev/vps-speed-test/commits/main)
@@ -24,6 +24,16 @@ test_vps/
 
 ## Installation
 
+### Clone the repository
+
+```bash
+git clone https://github.com/anrulev/vps-speed-test.git
+cd vps-speed-test
+chmod +x *.sh
+```
+
+### Requirements
+
 1. Ensure you have the necessary utilities installed:
    - `curl` - for geolocation
    - `ping` - for latency testing
@@ -32,9 +42,38 @@ test_vps/
 
 2. (Optional) Install `jq` for improved JSON parsing:
    ```bash
-   brew install jq  # macOS
-   apt install jq   # Ubuntu/Debian
+   # macOS
+   brew install jq
+
+   # Ubuntu/Debian
+   sudo apt install jq
+
+   # CentOS/RHEL
+   sudo yum install jq
    ```
+
+### Running on Windows
+
+The script doesn't work natively on Windows, but you can use **WSL** (Windows Subsystem for Linux):
+
+1. **Install WSL:**
+   ```powershell
+   # Run PowerShell as Administrator
+   wsl --install
+   ```
+
+2. **Restart your computer**
+
+3. **Clone and run:**
+   ```bash
+   # In WSL terminal
+   git clone https://github.com/anrulev/vps-speed-test.git
+   cd vps-speed-test
+   chmod +x *.sh
+   ./test_vps_speed.sh
+   ```
+
+**Alternative:** Use Git Bash (included with Git for Windows), but some utilities may be missing.
 
 ## Configuration
 
