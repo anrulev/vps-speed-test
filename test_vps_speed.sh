@@ -1,4 +1,6 @@
 #!/bin/bash
+# VPS Speed Test - Main Testing Script
+# https://github.com/anrulev/vps-speed-test
 
 # Установка локали для корректной работы с числами
 export LC_NUMERIC=C
