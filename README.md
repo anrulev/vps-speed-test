@@ -3,6 +3,8 @@
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows%20(WSL)-lightgrey)](https://github.com/anrulev/vps-speed-test)
 [![Shell](https://img.shields.io/badge/shell-bash-green)](https://www.gnu.org/software/bash/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Tests](https://github.com/anrulev/vps-speed-test/workflows/Tests/badge.svg)](https://github.com/anrulev/vps-speed-test/actions)
+[![ShellCheck](https://github.com/anrulev/vps-speed-test/workflows/ShellCheck/badge.svg)](https://github.com/anrulev/vps-speed-test/actions)
 [![Maintenance](https://img.shields.io/badge/maintained-yes-brightgreen)](https://github.com/anrulev/vps-speed-test/commits/main)
 
 **Языки:** **🇷🇺 Русский** | [🇬🇧 English](README.en.md) | [🇨🇳 简体中文](README.zh-CN.md)

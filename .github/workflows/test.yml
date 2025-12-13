@@ -1,0 +1,76 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bc traceroute curl jq
+
+    - name: Install dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install bc jq
+
+    - name: Set execute permissions
+      run: chmod +x *.sh
+
+    - name: Verify scripts are executable
+      run: |
+        test -x test_vps_speed.sh || exit 1
+        test -x view_reports.sh || exit 1
+        test -x install.sh || exit 1
+
+    - name: Check script syntax
+      run: |
+        bash -n test_vps_speed.sh
+        bash -n view_reports.sh
+        bash -n install.sh
+
+    - name: Verify servers.conf exists
+      run: |
+        test -f servers.conf || exit 1
+
+    - name: Test script help/version (dry run)
+      run: |
+        # Проверяем что скрипты не падают при запуске с --help (если поддерживается)
+        # Пока просто проверяем что файлы читаемы
+        head -1 test_vps_speed.sh | grep -q "^#!/bin/bash" || exit 1
+        head -1 view_reports.sh | grep -q "^#!/bin/bash" || exit 1
+        head -1 install.sh | grep -q "^#!/bin/bash" || exit 1
+
+    - name: Verify reports directory structure
+      run: |
+        test -d reports || exit 1
+        test -f reports/.gitkeep || exit 1
+
+  link-checker:
+    name: Check Links in README
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check links in README files
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        config-file: '.github/workflows/link-check-config.json'
