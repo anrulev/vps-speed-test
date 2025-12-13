@@ -5,11 +5,14 @@
     },
     {
       "pattern": "^http://127.0.0.1"
+    },
+    {
+      "pattern": "^https://www.gnu.org"
     }
   ],
   "timeout": "20s",
   "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "30s",
-  "aliveStatusCodes": [200, 206, 999]
+  "aliveStatusCodes": [200, 206, 403, 999]
 }
