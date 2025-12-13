@@ -204,7 +204,7 @@ For 9 servers: ~5-10 minutes
 
 Each test run is **automatically saved** to a separate file with date and time:
 
-```
+```text
 reports/report_2025-12-13_17-30-45.txt
 ```
 
