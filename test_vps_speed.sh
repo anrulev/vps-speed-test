@@ -76,7 +76,6 @@ else
 
     # Если парсинг не сработал, пробуем другой формат
     if [ -z "$my_city" ]; then
-        location_line=$(echo "$location_info" | grep -o '"loc"[^,]*')
         my_city=$(echo "$location_info" | grep -o '"city"[^,]*' | head -1 | sed 's/"city"://g' | tr -d '" ')
         my_region=$(echo "$location_info" | grep -o '"region"[^,]*' | head -1 | sed 's/"region"://g' | tr -d '" ')
         my_country=$(echo "$location_info" | grep -o '"country"[^,]*' | head -1 | sed 's/"country"://g' | tr -d '" ')
@@ -124,7 +123,8 @@ temp_file=$(mktemp)
 # Функция для расчета jitter (вариация задержки)
 calculate_jitter() {
     local ip=$1
-    local ping_times=$(ping -c 10 -W 2000 $ip 2>/dev/null | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')
+    local ping_times
+    ping_times=$(ping -c 10 -W 2000 "$ip" 2>/dev/null | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')
 
     if [ -z "$ping_times" ]; then
         echo "N/A"
@@ -132,7 +132,8 @@ calculate_jitter() {
     fi
 
     # Расчет стандартного отклонения (jitter)
-    local jitter=$(echo "$ping_times" | awk '{sum+=$1; sumsq+=$1*$1} END {printf "%.2f", sqrt(sumsq/NR - (sum/NR)^2)}')
+    local jitter
+    jitter=$(echo "$ping_times" | awk '{sum+=$1; sumsq+=$1*$1} END {printf "%.2f", sqrt(sumsq/NR - (sum/NR)^2)}')
     echo "$jitter"
 }
 
