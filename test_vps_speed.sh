@@ -190,9 +190,11 @@ test_server() {
 
     # 4. TCP Connection time (порт 80)
     echo -ne "  ${CYAN}[4/4]${NC} TCP соединение (порт 80)... "
-    tcp_time=$(curl -o /dev/null -s -w '%{time_connect}\n' --connect-timeout 5 http://$ip 2>/dev/null || echo "N/A")
-    if [ "$tcp_time" != "N/A" ]; then
-        tcp_time_ms=$(echo "$tcp_time * 1000" | bc)
+    tcp_time=$(curl -o /dev/null -s -w '%{time_connect}' --connect-timeout 5 http://$ip 2>/dev/null || echo "N/A")
+    if [ "$tcp_time" != "N/A" ] && [ -n "$tcp_time" ]; then
+        # Убираем возможные пробелы и переносы строк
+        tcp_time=$(echo "$tcp_time" | tr -d '\n\r ')
+        tcp_time_ms=$(printf "%.2f" $(echo "$tcp_time * 1000" | bc -l))
         echo -e "${tcp_time_ms} ms"
     else
         tcp_time_ms="N/A"
@@ -212,10 +214,10 @@ test_server() {
         score=$avg_ping_calc
     fi
 
-    # Определение качества соединения
-    if (( $(echo "$avg_ping_calc < 50 && $packet_loss_calc < 1" | bc -l) )); then
+    # Определение качества соединения (используем awk вместо bc для надежности)
+    if awk "BEGIN {exit !($avg_ping_calc < 50 && $packet_loss_calc < 1)}"; then
         quality="${GREEN}★★★ Отлично${NC}"
-    elif (( $(echo "$avg_ping_calc < 100 && $packet_loss_calc < 2" | bc -l) )); then
+    elif awk "BEGIN {exit !($avg_ping_calc < 100 && $packet_loss_calc < 2)}"; then
         quality="${YELLOW}★★☆ Хорошо${NC}"
     else
         quality="${RED}★☆☆ Удовлетворительно${NC}"
@@ -247,14 +249,19 @@ sort -t'|' -k1 -n "$temp_file" | while IFS='|' read -r score name ip min_ping av
     if [ "$score" = "9999" ]; then
         printf "${RED}%-3s %-20s %-16s %8s %8s %8s %8s %7s %s${NC}\n" "❌" "$name" "$ip" "-" "100.0" "-" "-" "-" "НЕДОСТУПЕН"
     else
+        # Проверяем что данные валидны
+        if [ -z "$avg_ping" ] || [ -z "$packet_loss" ]; then
+            continue
+        fi
+
         # Конвертируем для сравнения
         avg_ping_calc=$(echo "$avg_ping" | tr ',' '.')
         packet_loss_calc=$(echo "$packet_loss" | tr ',' '.')
 
-        # Цветовая кодировка по качеству
-        if (( $(echo "$avg_ping_calc < 50 && $packet_loss_calc < 1" | bc -l) )); then
+        # Цветовая кодировка по качеству (используем awk вместо bc для надежности)
+        if awk "BEGIN {exit !($avg_ping_calc < 50 && $packet_loss_calc < 1)}"; then
             color=$GREEN
-        elif (( $(echo "$avg_ping_calc < 100 && $packet_loss_calc < 2" | bc -l) )); then
+        elif awk "BEGIN {exit !($avg_ping_calc < 100 && $packet_loss_calc < 2)}"; then
             color=$YELLOW
         else
             color=$RED
