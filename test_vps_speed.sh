@@ -164,6 +164,13 @@ test_server() {
     # Packet loss
     packet_loss=$(echo "$ping_output" | grep -o '[0-9.]*% packet loss' | grep -o '^[0-9.]*')
 
+    # Проверка на 100% потерю пакетов
+    if [ -z "$avg_ping" ] || [ -z "$packet_loss" ]; then
+        echo -e "${RED}  ✗ Сервер недоступен (100% потеря пакетов)${NC}\n"
+        echo "9999|$name|$ip|N/A|N/A|N/A|100.0|N/A|N/A|N/A" >> "$temp_file"
+        return
+    fi
+
     echo -e "  ${CYAN}[1/4]${NC} Ping (мин/сред/макс/stddev): ${GREEN}$min_ping${NC}/${BLUE}$avg_ping${NC}/${RED}$max_ping${NC}/${YELLOW}$stddev${NC} ms"
     echo -e "  ${CYAN}[1/4]${NC} Потеря пакетов: ${packet_loss}%"
 
@@ -238,7 +245,7 @@ echo "--------------------------------------------------------------------------
 rank=1
 sort -t'|' -k1 -n "$temp_file" | while IFS='|' read -r score name ip min_ping avg_ping max_ping packet_loss jitter hops tcp_time; do
     if [ "$score" = "9999" ]; then
-        printf "${RED}%-3s %-20s %-16s %8s %8s %8s %8s %7s %6s${NC}\n" "$rank" "$name" "$ip" "N/A" "N/A" "N/A" "N/A" "N/A" "N/A"
+        printf "${RED}%-3s %-20s %-16s %8s %8s %8s %8s %7s %s${NC}\n" "❌" "$name" "$ip" "-" "100.0" "-" "-" "-" "НЕДОСТУПЕН"
     else
         # Конвертируем для сравнения
         avg_ping_calc=$(echo "$avg_ping" | tr ',' '.')
@@ -273,18 +280,18 @@ done
 echo ""
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
-# Лучший сервер
-best_server=$(sort -t'|' -k1 -n "$temp_file" | head -1)
+# Лучший сервер (исключаем недоступные с баллом 9999)
+best_server=$(sort -t'|' -k1 -n "$temp_file" | awk -F'|' '$1 < 9999' | head -1)
 if [ -n "$best_server" ]; then
     best_name=$(echo "$best_server" | cut -d'|' -f2)
     best_ping=$(echo "$best_server" | cut -d'|' -f5)
     best_loss=$(echo "$best_server" | cut -d'|' -f7)
     best_score=$(echo "$best_server" | cut -d'|' -f1)
 
-    if [ "$best_ping" != "N/A" ]; then
-        echo -e "${GREEN}🏆 РЕКОМЕНДАЦИЯ:${NC} ${YELLOW}$best_name${NC}"
-        echo -e "   Средний ping: ${GREEN}$best_ping ms${NC} | Потеря пакетов: ${GREEN}$best_loss%${NC} | Общий балл: ${GREEN}$best_score${NC}"
-    fi
+    echo -e "${GREEN}🏆 РЕКОМЕНДАЦИЯ:${NC} ${YELLOW}$best_name${NC}"
+    echo -e "   Средний ping: ${GREEN}$best_ping ms${NC} | Потеря пакетов: ${GREEN}$best_loss%${NC} | Общий балл: ${GREEN}$(printf '%.2f' $best_score)${NC}"
+else
+    echo -e "${RED}⚠️  Ни один сервер не доступен${NC}"
 fi
 
 echo ""
