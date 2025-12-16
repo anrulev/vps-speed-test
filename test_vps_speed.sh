@@ -195,9 +195,9 @@ test_server() {
         # Убираем возможные пробелы и переносы строк
         tcp_time=$(echo "$tcp_time" | tr -d '\n\r ')
 
-        # Проверяем что время больше 0 (если 0, значит порт закрыт)
+        # Проверяем что время больше 0.001 сек (1мс) - меньше считается закрытым портом
         # Используем bc для безопасного сравнения
-        if [ "$(echo "$tcp_time > 0" | bc -l 2>/dev/null)" = "1" ]; then
+        if [ "$(echo "$tcp_time > 0.001" | bc -l 2>/dev/null)" = "1" ]; then
             local tcp_calc
             tcp_calc=$(echo "$tcp_time * 1000" | bc -l)
             tcp_time_ms=$(printf "%.2f" "$tcp_calc")
