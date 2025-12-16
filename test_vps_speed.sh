@@ -196,7 +196,8 @@ test_server() {
         tcp_time=$(echo "$tcp_time" | tr -d '\n\r ')
 
         # Проверяем что время больше 0 (если 0, значит порт закрыт)
-        if awk "BEGIN {exit !($tcp_time > 0)}"; then
+        # Используем bc для безопасного сравнения
+        if [ "$(echo "$tcp_time > 0" | bc -l 2>/dev/null)" = "1" ]; then
             local tcp_calc
             tcp_calc=$(echo "$tcp_time * 1000" | bc -l)
             tcp_time_ms=$(printf "%.2f" "$tcp_calc")
