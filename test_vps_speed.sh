@@ -194,10 +194,17 @@ test_server() {
     if [ "$tcp_time" != "N/A" ] && [ -n "$tcp_time" ]; then
         # Убираем возможные пробелы и переносы строк
         tcp_time=$(echo "$tcp_time" | tr -d '\n\r ')
-        local tcp_calc
-        tcp_calc=$(echo "$tcp_time * 1000" | bc -l)
-        tcp_time_ms=$(printf "%.2f" "$tcp_calc")
-        echo -e "${tcp_time_ms} ms"
+
+        # Проверяем что время больше 0 (если 0, значит порт закрыт)
+        if awk "BEGIN {exit !($tcp_time > 0)}"; then
+            local tcp_calc
+            tcp_calc=$(echo "$tcp_time * 1000" | bc -l)
+            tcp_time_ms=$(printf "%.2f" "$tcp_calc")
+            echo -e "${tcp_time_ms} ms"
+        else
+            tcp_time_ms="N/A"
+            echo -e "${RED}порт закрыт${NC}"
+        fi
     else
         tcp_time_ms="N/A"
         echo -e "недоступно"
